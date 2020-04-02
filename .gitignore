@@ -1,4 +1,8 @@
 build/
+build-server/
 /dist/
 .idea/
 .gradle/
+x/
+*.iml
+local.properties
