@@ -1,42 +1,26 @@
 package cn.wycode.controller
 
-import io.netty.bootstrap.ServerBootstrap
-import io.netty.channel.ChannelInitializer
-import io.netty.channel.nio.NioEventLoopGroup
-import io.netty.channel.socket.SocketChannel
-import io.netty.channel.socket.nio.NioServerSocketChannel
-import io.netty.handler.logging.LogLevel
-import io.netty.handler.logging.LoggingHandler
-import javafx.concurrent.Service
-import javafx.concurrent.Task
+import java.io.IOException
+import java.net.ServerSocket
 
-class ClientServer(private val port: Int) {
+class ClientServer() {
 
-    fun run(){
-        val eventLoopGroup = NioEventLoopGroup(4)
+    fun serve(){
+        val serverSocket: ServerSocket
         try {
-            val bootstrap = ServerBootstrap()
-                    .group(eventLoopGroup)
-                    .handler(LoggingHandler(LogLevel.INFO))
-                    .childHandler(ServerInitializer())
-                    .channel(NioServerSocketChannel::class.java)
-
-            val channelFeature = bootstrap.bind(port)
-            channelFeature.channel().closeFuture().sync();
-        } catch (e: Exception) {
+            serverSocket = ServerSocket(PORT)
+        } catch (e: IOException) {
             e.printStackTrace()
-        } finally {
-            eventLoopGroup.shutdownGracefully()
+            return
         }
-    }
-
-}
-
-class ServerInitializer : ChannelInitializer<SocketChannel>() {
-    override fun initChannel(ch: SocketChannel) {
-        println("wy::Server-->ServerInitializer::initChannel")
-        val p = ch.pipeline()
-//        p.addLast(MessageDecoder())
-//        p.addLast(MessageHandler())
+        println("ClientServer::started!")
+        while (true) {
+            try {
+                val socket = serverSocket.accept()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+            println("ClientServer::connected!")
+        }
     }
 }
