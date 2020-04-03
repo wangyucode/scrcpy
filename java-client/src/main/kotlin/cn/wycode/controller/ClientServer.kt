@@ -7,6 +7,8 @@ import io.netty.channel.socket.SocketChannel
 import io.netty.channel.socket.nio.NioServerSocketChannel
 import io.netty.handler.logging.LogLevel
 import io.netty.handler.logging.LoggingHandler
+import javafx.concurrent.Service
+import javafx.concurrent.Task
 
 class ClientServer(private val port: Int) {
 
@@ -27,6 +29,7 @@ class ClientServer(private val port: Int) {
             eventLoopGroup.shutdownGracefully()
         }
     }
+
 }
 
 class ServerInitializer : ChannelInitializer<SocketChannel>() {
